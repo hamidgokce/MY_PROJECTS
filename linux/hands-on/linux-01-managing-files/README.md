@@ -1,4 +1,4 @@
-20/06/2021 DONEE
+20/06/2021 DONE
 # Hands-on Linux-01 : Managing Files in Linux
 
 Purpose of the this hands-on training is to teach the students how to manage files in Linux.
