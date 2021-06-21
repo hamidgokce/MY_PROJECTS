@@ -1,3 +1,4 @@
+21/06/2021 DONE
 # Hands-on Linux-02 : Linux Environment Variables
 
 Purpose of the this hands-on training is to teach the students how to use environment variables.
@@ -7,7 +8,7 @@ Purpose of the this hands-on training is to teach the students how to use enviro
 At the end of the this hands-on training, students will be able to;
 
 - explain environment variables.
-
+It is a dynamic-named value that can affect the way running processes will behave on a computer.
 - understand Quoting with Variables.
 
 ## Outline
