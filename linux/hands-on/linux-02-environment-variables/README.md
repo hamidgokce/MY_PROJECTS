@@ -99,7 +99,7 @@ cd
 mkdir test && cd test
 nano test.sh
 # copy and paste the code-echo "hello world"- in test.sh
-chmod +x test.sh
+chmod +x test.sh ==> executable file yetkisi verdik
 ./test.sh
 cd    # change directory to ec2-user's home directory
 ./test.sh    # it doesnt work. 
