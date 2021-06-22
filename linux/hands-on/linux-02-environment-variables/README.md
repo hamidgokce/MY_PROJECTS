@@ -8,7 +8,7 @@ Purpose of the this hands-on training is to teach the students how to use enviro
 At the end of the this hands-on training, students will be able to;
 
 - explain environment variables.
-It is a dynamic-named value that can affect the way running processes will behave on a computer.
+==> It is a dynamic-named value that can affect the way running processes will behave on a computer.
 - understand Quoting with Variables.
 
 ## Outline
@@ -26,27 +26,27 @@ It is a dynamic-named value that can affect the way running processes will behav
 - Difference between "env" and "printenv" commands.
 ​
 ```bash
-env
-printenv
-printenv HOME
+env ==> tum enviromentler gosterilir
+printenv ==> spesific enviroment gosterilir
+printenv HOME ==> HOME un enviroment i gorunur
 echo $HOME
-env HOME
+env HOME ==> default verdigi icin calismaz
 ```
 ​
 - Understanding the shell variable.
 ​
 ```bash
 CLARUS=way
-env
+env ==> default olmadi icin CLARUS gorunmez
 set
-set | grep CLARUS
-echo $CLARUS
+set | grep CLARUS ==>set icerisindeki CLARUS degerini getirir
+echo $CLARUS ==> atamais oldugumuz degeri verir
 ```
 ​
 - Understanding the environment variable. Use export command.
 ​
 ```bash
-export WAY=clarus
+export WAY=clarus ==> komutu ile degiskeni default olarak atar(env icerisine)
 env
 ```
 ​
@@ -55,14 +55,14 @@ env
 ```bash
 export WAY=clarus
 sudo su
-useradd user1
+useradd user1 ==> yeni bir kullanici olusturuldu
 passwd user1 # give user1 any password.
 exit
-su user1
+su user1 ==> user1 e gecildi
 env | grep WAY
 set | grep CLARUS
 ```
-​
+​cat /etc/passwd ==> userlar hakkinda bilgi verir
 - Change the environment variable value.
 ​
 ```bash
@@ -77,14 +77,15 @@ env
 ```bash
 export WAY=clarusway
 env | grep WAY
-unset WAY
+unset WAY ==> hem shell hem de enviroment variableler degisir
 env | grep WAY
 ```
 ​
 ## Part 2 - Path Variable
 ​
 - PATH variable.
-​
+​ ==> Linux de komutlarin calismasi icin gerekli olan dosyalarin bulundugu yerdir. Herhangi bir komut girildiginde executable file larini bulup calistirmaktadir.
+
 ```bash
 printenv PATH
 cd /bin
