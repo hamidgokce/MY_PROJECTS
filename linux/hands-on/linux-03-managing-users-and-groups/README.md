@@ -156,13 +156,13 @@ cat /etc/passwd
 - groups.
 ​
 ```bash
-groups
+groups # mevcut kullanicilarin hangi grupta oldugunu gosterir
 sudo groupadd linux
 sudo groupadd aws
 sudo groupadd python
-cat /etc/group
+cat /etc/group # gruplar hakkinda bilgi verir
 groups
-sudo usermod -a -G linux ec2-user    # append ec2-user in linux group.
+sudo usermod -a -G linux ec2-user    # append ec2-user in linux group. kullanicilari gruplara ekleme cikarma icin kullanilir
 cat /etc/group
 groups
 sudo usermod -G aws ec2-user    # this command deletes all groups that ec2-user in except default group of ec2-user and add ec2-user to aws group.
