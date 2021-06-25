@@ -42,17 +42,17 @@ who
 who # open a new shell and retry who command to see the users who logged in.
 ```
 ​
-- w. # who komutunun daha detayli gosterimidir 
+w # who komutunun daha detayli gosterimidir 
 ​
 ```bash
-w
+w # who komutunun daha detayli gosterimidir
 who
 ```
 ​
 - id. 
 ​
 ```bash
-id
+id # her kullanicinin id si bulunur
 id root # root un id sini verir
 sudo su
 useradd user1
@@ -97,7 +97,7 @@ tail -3 /etc/passwd # son 3 satiri verecektir
 - useradd.
 ​
 ```bash
-sudo useradd user3 # 3. kullanici olusturuyoruz
+sudo useradd user3 # 3. kullanici olusturuyoruz / adduser useradd e gore daha fazla ayrintiyi girmemizi istiyor. ayrica root da degilken komutu girersek bize yeni kullanici olusturmayacaktir fakat sudo !! ==> komutu ile bir onceki komutu sudo su komutu ile yaziyormusuz gibi dusunebiliriz
 cd /home 
 ls
 cd /etc
@@ -112,8 +112,8 @@ cd /home && ls
 sudo useradd -m -d /home/user6home user6    # change the user's home directory name with -d option. ==> yukaridaki login.defs deki degisiklik sonrasi olusturulan kullanicilarin home directory si olusmamaktadir. fakat ustteki komutu girdigimizde yeni olusturulan kullanicinin home directory si olusacaktir.
 ls
 sudo useradd -m -c "this guy is developer" user7    # give a descrpition to user with -c option. ==> yeni olusturulan kullaciya description tanimlanmaktadir
-cat /etc/passwd
-cat /etc/passwd | grep user7
+cat /etc/passwd # kullanicilari gorebiliyoruz
+cat /etc/passwd | grep user7 # sadece olusturduysak eger user7 ile ilgili satiri getiriyor
 ```
 ​
 - userdel.
@@ -127,7 +127,7 @@ sudo userdel -r user1    # delete user and its home directory with -r option. ==
 cd /home && ls
 ```
 ​
-- usermod.
+- usermod. ==> 
 ​
 ```bash
 cat /etc/passwd
@@ -145,9 +145,9 @@ cat /etc/passwd
 ```bash
   sudo su
   useradd user8
-  passwd user8
+  passwd user8 # kullaniciya sifre atamaktadir / cat /etc/shadow ==> kullanicilarin sifrelerini gosterir /  cat /etc/passwd kullanicilari gosteren komuttur linux icerisindeki
   cd /etc
-  cat shadow
+  cat shadow # sudo cat/etc/shadow  kullanicilarin ve sifrelerinin oldugu dosyadir
   cat login.defs
 ```
 ​
@@ -156,22 +156,22 @@ cat /etc/passwd
 - groups.
 ​
 ```bash
-groups # mevcut kullanicilarin hangi grupta oldugunu gosterir
-sudo groupadd linux
-sudo groupadd aws
-sudo groupadd python
+groups # mevcut kullanicilarin hangi grupta oldugunu gosterir. linux biz kullanici olustururken otomatik olarak grup da olusturmaktadir.
+sudo groupadd linux # linux grubunu olusturuyoruz
+sudo groupadd aws # aws grubunu olusturuyoruz
+sudo groupadd python # python grubunu olusturuyoruz
 cat /etc/group # gruplar hakkinda bilgi verir
-groups
+groups # gurup isimlerini gormekteyiz /ec2 user in ait oldugu guruplari verdi /ec2-user ec2-user grubuna aittir
 sudo usermod -a -G linux ec2-user    # append ec2-user in linux group. kullanicilari gruplara ekleme cikarma icin kullanilir
-cat /etc/group
-groups
+cat /etc/group # ec2 makinasinin icerisindeki gruplari getirdi
+groups 
 sudo usermod -G aws ec2-user    # this command deletes all groups that ec2-user in except default group of ec2-user and add ec2-user to aws group.
 cat /etc/group
 sudo groupmod -n my-linux linux    # change the name of the linux group.
 cat /etc/group
-groups
+groups # groups ec2-user ==> ec2-user in ait oldugu gruplari verir
 cat /etc/group
-sudo groupdel python
+sudo groupdel python # python grubunu silmis olduk
 cat /etc/group
 sudo gpasswd -a user7 aws    # add a user to a group.
 cat /etc/group
