@@ -23,7 +23,7 @@ At the end of the this hands-on training, students will be able to;
 **cat**
 ​
 - Create a folder and name it filters.
-​
+​export PS1="\[\033[44m\]\u@\h:\w$\[\033[00m\]" ==> renklendirme
 ```bash
 mkdir filters
 cd filters
@@ -45,17 +45,17 @@ Sunday
 ```
 - Display the content of days.txt.
 ```bash
-cat days.txt
+cat days.txt # yazilani goruntuledik / cat yanindaki file ekrana type ediyor
 ```
 - Show what cat command does when used in a pipe.
 ​
 ```bash
-cat days.txt | cat | cat | cat | cat
+cat days.txt | cat | cat | cat | cat # ilk cat ciktiyi bir saga atar
 ```
 - Create a `text` file named `count.txt`.
 ​
 ```bash
-nano count.txt
+nano count.txt 
 ```
 ```text
 one
@@ -72,13 +72,14 @@ eleven
 ```
 - Display the content of count.txt.
 ```bash
-cat count.txt
+cat count.txt  # tac ==> tersten yazdirir yani reverse
 ```
 **tee**
 ​
 - Write the content of the count.txt file in reverse order to another file named temp.txt and display the content of temp.txt in reverse order.
 ```bash
-tac count.txt | tee temp.txt | tac
+tac count.txt | tee temp.txt | tac # count tersten yazilir sonra tekrar reverse yani ilk haline gelir
+tac count.txt | tee temp.txt ==> ilkini ters cevirip tempt.txt ye yazdirir
 ```
 - Check whether the temp.txt file created and display the content.
 ​
@@ -89,7 +90,7 @@ cat temp.txt
 - Create a file named 'myfiles.txt' from the output of 'ls -l' command and display the .txt files.
 ​
 ```bash
-ls -l | tee myfiles.txt | find *.txt
+ls -l | tee myfiles.txt | find *.txt # ls -l yi alir myfiles dosyasina yazdirir ve daha sonra txt dosyalarinin hepsini cikartir / ls -l > myfiles.txt ile ayni
 ```
 - Check whether the myfiles.txt file created and display the content.
 ​
@@ -102,7 +103,7 @@ cat myfiles.txt
 - Create a `text` file named `tennis.txt`.
 ​
 ```bash
-cat > tennis.txt
+cat > tennis.txt # asagidakileri yazdiracagiz
 ​
 Amelie Mauresmo, Fra
 Justine Henin, BEL
@@ -118,19 +119,19 @@ cat tennis.txt
 - Display only the lines of tennis.txt that includes 'Williams'.
 ​
 ```bash
-cat tennis.txt | grep Williams
+cat tennis.txt | grep Williams # tennis.txt de Williams lari bulmaktayiz
 ```
 - Display only the lines of tennis.txt that includes 'us'.
 ​
 ```bash
-cat tennis.txt | grep us
+cat tennis.txt | grep us # sadece kucuk us leri verir / -i us yazarsak kucuk buyuk hepsini verir
 ```
 - Display the owners column (3rd column) of all the files in current directory.
 ​
 **cut**
 ​
 ```bash
-ls -l | cut -d' ' -f3
+ls -l | cut -d' ' -f3 # -d ==> delimeter ayirac gibi tarif edebiliriz / 
 ```
 - Display the content of /etc/passwd directory.
 ​
@@ -140,16 +141,16 @@ cat /etc/passwd
 - Display only the usernames.
 ​
 ```bash
-cut -d: -f1 /etc/passwd
+cut -d: -f1 /etc/passwd # d yerine c koyarsak karakter olarak verir / cut -c 1-3 myfiles.txt ==> satirlarin ilk 3 karakterlerini alir
 ```
-**tr**
+**tr** # translate 
 ​
 - Create a `text` file named `clarusway.txt`.
 ​
 ```bash
 cat << EOF > clarusway.txt
 Clarusway:Road to reinvent yourself.
-EOF
+EOF # (end of file demektir)
 ```
 - Display the content of clarusway.txt.
 ​
@@ -159,7 +160,7 @@ cat clarusway.txt
 - In the content of clarusway.txt, replace or translate aer letters with 'QAZ'.
 ​
 ```bash
-cat clarusway.txt | tr aer QAZ
+cat clarusway.txt | tr aer QAZ # gecici karakterleri degistiriyor a==> Q ile e ==> A ile r==>Z ile
 ```
 ​
 - Write the content of count.txt on the same line.
@@ -171,13 +172,13 @@ cat count.txt | tr '\n' ' '
 - Delete all the vowels in the content of clarusway.txt.
 ​
 ```bash
-cat clarusway.txt | tr -d aeiou
+cat clarusway.txt | tr -d aeiou # -d delete anlamindadir ==> cat clarusway.txt | tr -d r ==> r leri sileriz / -s ise tekrarlan harfler uzerinden islem yaptirir
 ```
 ​
 - Write the whole content of clarusway.txt in capital letters.
 ​
 ```bash
-cat clarusway.txt | tr [a-z] [A-Z]
+cat clarusway.txt | tr [a-z] [A-Z] # hepsini byuk harfe donusturur
 ```
 **wc**
 ​
@@ -188,7 +189,7 @@ wc count.txt
 ```
 - Find how many users are there in the computer.
 ```bash
-wc -l /etc/passwd
+wc -l /etc/passwd  # l lines anlaminda / kac tane line yani kullanici oldugunu sayar
 ```
 **sort**
 ​
@@ -214,12 +215,12 @@ cat marks.txt
 - Sort the content of marks.txt.
 ​
 ```bash
-sort marks.txt
+sort marks.txt # alfabetik siraya gore koyar
 ```
 - Sort the content of marks.txt in reverse order.
 ​
 ```bash
-sort -r marks.txt
+sort -r marks.txt # -r yerine f ile yaparsak buyuk kucuk harf uyumuna dikkat eder
 ```
 **uniq**
 ​
@@ -257,14 +258,14 @@ cat trainees.txt
 ******before using uniq command, the file must be sorted******
 ​
 ```bash
-sort trainees.txt | uniq
+sort trainees.txt | uniq # unic olanlari cikartir
 ```
 **comm**
 ​
 - Create a `text` file named `file1.txt`.
 ​
 ```bash
-cat << EOF > file1.txt
+cat << EOF > file1.txt 
 Aeron
 Bill
 James
@@ -285,7 +286,7 @@ EOF
 ```
 - Compare file1.txt and file2.txt.
 ​
-******before using comm command, files must be sorted******
+******before using comm command, files must be sorted****** # iki dosyada once sirali bir sekilde olmali yani dosyamizi gerekirse baksa bir dosya icerisinde siralamaliyiz
 ​
 ```bash
 comm file1.txt file2.txt
@@ -304,7 +305,7 @@ Germany,Berlin,Europe
 EOF
 ```
   - Cut only 'Continent' column | Remove header | Sort the output | List distinct values | Save it to 'continent.txt' and display on the screen.
-​
+​ == > ec2-user@ip-172-31-57-219:~/filters$cut -d ',' -f3 countries.csv | tail -4 | sort |uniq | tee continents.txt
 ```bash
 ********************************
 ```
@@ -321,10 +322,10 @@ cd operators
 - Write two seperate cat command on the same line using ;.
 ​
 ```bash
-cat days.txt ; cat count.txt 
+cat days.txt ; cat count.txt # iki ayri dosyayi ard arda yazdirir
 ```
 ```bash
-echo Hello ; echo World! 
+echo Hello ; echo World! # iki komutu da ard arda yani sirali bir sekilde calistirir. yani iki komutu calistirabiliriz
 ```
 **&**
 ​
@@ -341,7 +342,7 @@ ls -l
 cat count.txt
 cat days.txt
 ```
-**$?**
+**$?** # ==> fail
 ​
 - Run ls command and show that it is executed successfully.
 ​
@@ -360,7 +361,7 @@ echo $?
 - Display days.txt and if it runs properly display count.txt.
 ​
 ```bash
-cat days.txt && cat count.txt
+cat days.txt && cat count.txt # ilk komut basarili ise digerini de calistirir
 ```
 - Display days.text and if it runs properly display count.txt.
 ​
@@ -427,7 +428,7 @@ echo The special characters are \*, \\, \", \#, \$, \'.
     c. If it does not exist print message “Too early!”
   2.Create a file named “clarusway.doc” that contains “Congratulations”
   3.Repeat Step 1
-​
+​answer # find -name clarusway.txt && cat clarusway.txt || echo “too early\!”
 ```bash
 ********************************
 ```
