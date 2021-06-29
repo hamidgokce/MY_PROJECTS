@@ -6,7 +6,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0ab4d1e9cf9a1215a
-      InstanceType: t2.micro
+      InstanceType: t2.micros
       KeyName: EC2_key
       SecurityGroupIds:
         - cfn-demo-secgroup
