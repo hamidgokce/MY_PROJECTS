@@ -1,0 +1,43 @@
+Please install the VSCode extensions below before our JSON-YAML-CloudFormation in-class session tomorrow, so we can have more time to focus on our topics.
+Take care...
+----------------------------------------
+Merhaba!
+Derste biraz daha zaman kazanmak için lütfen aşağıdaki  VSCode extensionları yarınki JSON-YAML-CloudFormation dersinden önce yükleyelim.
+İyi çalışmalar...
+----------------------------------------
+Name: YAML
+Id: redhat.vscode-yaml
+Description: YAML Language Support by Red Hat, with built-in Kubernetes syntax support
+Version: 0.20.0
+Publisher: Red Hat
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
+Name: YAML :heart: JSON
+Id: hilleer.yaml-plus-json
+Description: Easily convert yaml to json and json to yaml
+Version: 1.8.0
+Publisher: Daniel Hillmann
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=hilleer.yaml-plus-json
+Name: CloudFormation Linter
+Id: kddejong.vscode-cfn-lint
+Description: AWS CloudFormation template Linter
+Version: 0.19.0
+Publisher: kddejong
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=kddejong.vscode-cfn-lint
+Name: CloudFormation Snippets
+Id: dsteenman.cloudformation-yaml-snippets
+Description: This extension adds snippets for all the AWS CloudFormation resources into Visual Studio Code.
+Version: 3.22.0
+Publisher: Danny Steenman
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=dsteenman.cloudformation-yaml-snippets
+marketplace.visualstudio.commarketplace.visualstudio.com
+YAML - Visual Studio Marketplace
+Extension for Visual Studio Code - YAML Language Support by Red Hat, with built-in Kubernetes syntax support
+marketplace.visualstudio.commarketplace.visualstudio.com
+YAML :heart: JSON - Visual Studio Marketplace
+Extension for Visual Studio Code - Easily convert yaml to json and json to yaml
+marketplace.visualstudio.commarketplace.visualstudio.com
+CloudFormation Linter - Visual Studio Marketplace
+Extension for Visual Studio Code - AWS CloudFormation template Linter
+marketplace.visualstudio.commarketplace.visualstudio.com
+CloudFormation Snippets - Visual Studio Marketplace
+Extension for Visual Studio Code - This extension adds snippets for all the AWS CloudFormation resources into Visual Studio Code.
