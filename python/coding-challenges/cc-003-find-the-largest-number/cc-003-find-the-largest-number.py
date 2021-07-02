@@ -1,6 +1,6 @@
 # Solution - 1 
 num = [67, 85, 19, 39]
-print(max(num))
+max(num)
 
 # Solution - 2 
 counter = 0
