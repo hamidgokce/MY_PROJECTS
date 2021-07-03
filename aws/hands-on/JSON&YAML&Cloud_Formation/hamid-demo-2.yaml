@@ -1,0 +1,9 @@
+script : |
+  echo 'Hello world'
+  export PROFILE = 'student'
+  echo $PROFILE
+paragraph : >
+  this line
+  will be 
+  in single
+  line.

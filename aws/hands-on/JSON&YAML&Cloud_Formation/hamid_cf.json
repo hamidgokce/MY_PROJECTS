@@ -1,0 +1,23 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "This template launches an EC2 that enables SSH \n",
+  "Resources": {
+    "MyEC2": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-0ab4d1e9cf9a1215a",
+        "InstanceType": "t2.micro",
+        "KeyName": "EC2_key",
+        "SecurityGroups": [
+          "Cloudformation_sec_group"
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Abdulhamid_Gokce_cf_stack_instance"
+          }
+        ]
+      }
+    }
+  }
+}

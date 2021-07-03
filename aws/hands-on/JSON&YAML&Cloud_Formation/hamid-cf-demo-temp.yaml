@@ -1,0 +1,11 @@
+instructer:
+  name: Hamid
+  department: AWS
+  job: cloud engineer
+students:
+  - name: Hamid
+    age: 33
+  - Fatma
+  - Serkan
+description: |
+  buraya string bir ifade ekleyebiliriz
