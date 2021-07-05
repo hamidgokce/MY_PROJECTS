@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This template creates an EC2 instance with SSH and HTTP connection.
+  It is created by Mehmet COLGECEN
+Resources: 
+  MehmetsInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0ab4d1e9cf9a1215a
+
+      InstanceType: t2.micro
+
+      KeyName: EC2_key
+
+      SecurityGroups:
+        - Cloudformation_sec_group
+
+      Tags:
+        - Key: Name
+          Value: Kittens Carousel
+      
+      UserData:
+        Fn::Base64:
+            #! /bin/bash
+            yum update -y
+            yum install httpd -y
+            FOLDER="https://raw.githubusercontent.com/serdarcw/kittens-carousel-static-website/master/static-web"
+            cd /var/www/html
+            wget $FOLDER/index.html
+            wget $FOLDER/cat0.jpg
+            wget $FOLDER/cat1.jpg
+            wget $FOLDER/cat2.jpg
+            wget $FOLDER/cat3.png
+            systemctl start httpd
+            systemctl enable httpd
