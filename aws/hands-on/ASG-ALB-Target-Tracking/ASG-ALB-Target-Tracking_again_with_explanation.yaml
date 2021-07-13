@@ -1,0 +1,227 @@
+AWSTemplateFormatVersion: 2010-09-09 # Version bilgisidir. Herbir version yayinlaninca versionla birlikte yeni ozellikler gelir. Eski version yeni
+# version ozelliklerini calistirmayabilir.
+Description: | # Ne yaptigimizi aciklayacagimiz bolumdur. Ayrintili olmasi daha makuldur.
+  Bu template ASG, ELB olusturmaktadir. Basit bir application EC2 lar uzerinde calismaktadir. ALB tarafindan trafik yonlendirilmektedir. 
+  ASG, target tracking policy ile siteyi izlemekte ve ortalama CPU degerini takip etmektedir.
+Parameters: # User in belirlemesini istediginiz parametrelerdir. Mesela key.name veya Vpc dir. User a ait bilgilerdir.
+  VpcIP: #  ParameterName olarak yazdik
+    Description:  VpcId of your existing Virtual Private Cloud (VPC) # Kullaniciya insruction veririz
+    Type: AWS::EC2::VPC::Id # kullanicimiza vpc leri liste olarak doker
+  Subnets: # Bu isimler onemlidir. ilerde referans tuttugumuzda gerekecektir.
+    Description : The list of SubnetIds in your Virtual Private Cloud (VPC) 
+    Type : List<AWS::EC2::Subnet::Id> # liste halinde butun subnetleri doker. Basta list olursa coklu secim yapabiliyoruz ama yukarida yok idi
+  InstanceType:
+    Description: WebServer EC2 instance type. Avrupa sampiyonu ITALYA # kisinin karsisina cikacak olan yazidir. Parametleri belirlerken yonlendirme yazisidir
+    Type: String 
+    Default: t2.micro # kisiye asagidaki menu cikacaktir ama default degeri t2.micro dur.
+    AllowedValues:
+      - t2.micro
+      - t1.micro
+      - m1.small
+      - m1.medium
+      - m1.large
+  ConstraintDescription: must be a valid EC2 instance type that we gave. # user parametre girerken yukaridaki 5 degere izin vermis. Eger farkli
+  # deger yazarsa yukaridaki yazi karsisina cikacaktir. 
+  KeyName: # cloudformation calistiracagimizda SSH i acalim ki sonra kontrol edebilme imkanimiz olsun
+    Description: The EC2 Key Pair to allow SSH access to the instances
+    Type: AWS::EC2::KeyPair::KeyName
+  PolicyTargetValue:
+    Description : Please enter your Target value that triggers the Autoscaling 
+    Default : '60'
+    Type : String 
+
+Metadata: # AWS resourcenin bir metadatasi vardir. Ek metadata tanimlamak istiyorsak tanimlanacak yerdir. Mesela EC2 nun public ip si gibi...
+
+Mappings: # User goremez. Kendi planladigimiz yapiya gore arka planda adreslenebilir. Mesela; eger user north-virginia bolgesinde ise ve Ami numarasinin alinmasini istiyorsak 
+# kullanicinin regionuna gore sahsin AMi sini ceker. Parametreler user a sorulur ve adreslenir, Mapping user a sorulmaz arka planda adreslenir. User dan kasit cloudformation
+# u ayaga kaldirmak isteyen kisidir.
+
+  
+Conditions: # iceride conditionlar verebiliriz.
+  
+Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmektedir. Ilk olusturacagimiz kisim security group olmasi gerekmektedir. 
+  mySecurityGroup : # LogicalID: # security-group ec2 yazilinca cikmaktadir. Her resourcenin kendine ait bir ID si olur. Burada o ismi belirleyecegiz.
+    Type: AWS::EC2::SecurityGroup # adreslemedir ve hangi resource oldugunu gostermektedir.
+    Properties:
+      GroupDescription: Enable SSH and HTTP for EC2s and ALB # Required ==> 
+      # GroupName: "String" yukarida isim verdigimiz icin bu kisma gerek yoktur 
+      SecurityGroupEgress: # outbound stateless oldugu icin inbound kismi gecerlidir
+        SecurityGroupEgress
+      SecurityGroupIngress: # inbound
+        - IpProtocol: tcp 
+          FromPort: 22 # belirli bir port araligi acabiliriz
+          ToPort: 22 
+          CidrIp: 0.0.0.0/0 # source kismidir
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0      
+      #Tags: # tag vermeyecegimiz icin silebiliriz
+       # Tags
+      VpcId: "String" # Herhangi bir VpcId belirtmezsek default degeri alir. Eger varsa Vpc varsa ve olusturulacak infastructure yi bu yapi uzerinde kurmak istiyorsak
+      # VpcId nin ismini yazmaliyiz. Default uzerinde kullanacagimiz icin degisiklige gerek yoktur. 
+
+  myApplicationLoadBalancer: # loadbalancer ekliyoruz version2 iyi seciyoruz. LogicalID ismi default geliyor ve degistiriyoruz.
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      IpAddressType: ipv4 #"String" eger ipv6 kullanacak olsaydi ipv6 yazardik
+     # LoadBalancerAttributes: # arti attributeler kullanmak istiyorsak ekleyebiliriz
+      #  LoadBalancerAttributes
+     # Name: "String" yukarida verdigimiz icin kullanmiyoruz
+     # Scheme: "String" default deger yani internet-facing gecerlidir 
+      SecurityGroups: # atayacagimiz grup listener ve target in portlarini icermelidir. liste halinde yazilir mySecurityGroup un grup id sini alacagiz
+        - !GetAtt mySecurityGroup # SecurityGroups
+      # SubnetMappings: # 2 availibility zones olmali
+        # SubnetMappings
+      Subnets: !Ref Subnets # yukarida sectigimiz subnetleri buraya yapistirmis olduk. Bunu yapmazsak teker teker subnet id lerini yapistirmak gerekir
+       # Subnets
+      #Tags:
+       # Tags
+      # Type: # "String" default is application
+
+  # Target gruplari yazacagiz. 
+  
+  myALBTargetGrup:  #LogicalID: # elasticloadbalancertarget yazdigimizda cikar. Healthcheck kisminda bir sey belirtmezsek konsoldaki defaul degerlerini alir. 
+  # alt pathleride takip edecek dizin olusturulabilir ' / '
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: false
+      HealthCheckIntervalSeconds: 20 # Number
+      HealthCheckPath: "String"
+      HealthCheckPort: "String"
+      HealthCheckProtocol: "String"
+      HealthCheckTimeoutSeconds: 6 # Number
+      HealthyThresholdCount: 3 # Number
+      Matcher:
+        GrpcCode: "String"
+        HttpCode: "String"
+      Name: "String"
+      Port: 80 # Number ==> HTTP
+      Protocol: "String"
+      ProtocolVersion: "String" # default HTTP1
+      Tags:
+        Tags
+      TargetGroupAttributes: 
+        TargetGroupAttributes
+      TargetType: instance # "String" # 3 farkli targettype dinliyebilir instance / ip / lambda function
+      Targets: # calisan instanceleri target gruplara eklemek istiyorsak onlarin ID lerini yazacagiz buraya
+        Targets
+      UnhealthyThresholdCount:  2 # Number
+      VpcId: !Ref VpcIP #"String" # en basta vpcid belirlemistik
+  
+  myALBListener:  # LogicalID: 
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      AlpnPolicy: 
+        AlpnPolicy
+      Certificates: # trafigi listener ile yonlendirmek istiyorsak sertifika tanimlamaliyiz
+        Certificates
+      DefaultActions: # Required bu listener ile trafigi asagidaki gruba forward edecegiz diyebiliriz
+        - Type : forward # DefaultActions
+          TargetGroupArn : !Ref myALBTargetGroup 
+        LoadBalancerArn: !Ref myApplicationLoadBalancer # "String" # Required ==> listener hangi loadbalancer a bagli
+        Port: 80 # Number listener in nereyi dinleyecegi
+        Protocol: "String"
+        SslPolicy: "String" # yine sertifika ile ilgili
+
+  #  Target trafic policy tanimlayacagiz.
+
+  myCPUPolicy:  # LogicalID: # scalingpolicy yazarsak cikar
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AdjustmentType: "String"
+      AutoScalingGroupName: !Ref myAutoScalingGroup # "String" # Required ==> asagidaki autoscaling i burada tanimlamis olduk
+      Cooldown: "String" # herhangi bir ec2 olusturuldugunda onceki aktivite bitmeden(terminate gibi) yenisinin baslamasini (terminate etme) engellemektedir
+      # sularin durulmasi asamasi
+      EstimatedInstanceWarmup: Number
+      MetricAggregationType: "String"
+      MinAdjustmentMagnitude: Number
+      PolicyType: TargetTrackingScaling # "String" # targettrackingscaling, step veya simple scaling type vardir defaul simple scalingdir.
+      ScalingAdjustment: Number
+      StepAdjustments:
+        StepAdjustments
+      TargetTrackingConfiguration: # ortalama CPU ya gore scale et 
+        PredefinedMetricSpecification: ASGAverageCPUUtilization
+          PredefinedMetricType: 
+        #DisableScaleIn: false
+        TargetValue: !Ref PolicyTargetValue # Number # User in belirlemesini istiyoruz. Ve yukariya yazacagiz parametreleri (satir 28) 
+ 
+  # autoscaling grubu olusturacagiz.
+
+  myAutoScalingGroup: # LogicalID:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: "String"
+      AvailabilityZones: !!GetAZs "" # ==> seklinde yazilirsa uzerinde calismasini istedigimiz availibility zonelari gosterir. bos string tanimlarsak tum zone lar oldugunu soylemekteyiz
+       # AvailabilityZones
+      CapacityRebalance: false
+      Context: "String"
+      Cooldown: "String"
+      DesiredCapacity: 2 # "String"
+      HealthCheckGracePeriod: 300 # Number
+      HealthCheckType: ELB # "String" ==> ec2 lari da elb leri de takip ettirebiliriz. ELB ile ayni healthcheck i kullanmamiza yariyor
+      InstanceId: "String"
+      LaunchConfigurationName: !Ref myLaunchConfig # "String"
+      LaunchTemplate:
+        LaunchTemplateId: "String"
+        LaunchTemplateName: "String"
+        Version: "String"
+      LifecycleHookSpecificationList:
+        LifecycleHookSpecificationList
+      LoadBalancerNames:
+        LoadBalancerNames
+      MaxInstanceLifetime: Number
+      MaxSize: 3 # "String" # Required CPU sayisi 3 u gecmez
+      MetricsCollection:
+        MetricsCollection
+      MinSize: 1 # "String" # Required
+      MixedInstancesPolicy:
+      NewInstancesProtectedFromScaleIn: false
+      NotificationConfigurations:
+        NotificationConfigurations
+      PlacementGroup: "String"
+      ServiceLinkedRoleARN: "String"
+      Tags:
+        Tags
+      TargetGroupARNs: # Hangi target grubu takip et anlamindadir 
+        - !Ref myALBTargetGroup # TargetGroupARNs
+      TerminationPolicies:
+        TerminationPolicies
+      VPCZoneIdentifier:
+        VPCZoneIdentifier
+
+ # autoscaling tanimladigimiz ozellikleri olusturabilmesi icin template ye ihtiyac duyuyor ki instance ornegi vermemiz gerekir(Launch Configuration / Launch Template )
+  mylaunchConfig:  # LogicalID:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      AssociatePublicIpAddress: false
+      BlockDeviceMappings:
+        BlockDeviceMappings
+      ClassicLinkVPCId: "String" 
+      ClassicLinkVPCSecurityGroups:
+        ClassicLinkVPCSecurityGroups
+      EbsOptimized: false
+      IamInstanceProfile: "String"
+      ImageId: ami-0dc2d3e4c0f9ebd18 # "String" # Required
+      InstanceId: "String"
+      InstanceMonitoring: false # true dakikada bir false 5 dakika da bir
+      InstanceType: "String" # Required
+      KernelId: "String"
+      KeyName: "String"
+      LaunchConfigurationName: "String"
+      MetadataOptions:
+        HttpEndpoint: "String"
+        HttpPutResponseHopLimit: Number
+        HttpTokens: "String"
+      PlacementTenancy: "Number" # firmalar host kiralar ve dedicate host denir. guvenlik icin
+      RamDiskId: "String" # t2 micro dan gelecek ram
+      SecurityGroups:
+        SecurityGroups
+      SpotPrice: "String" # limit belirleriz ve limite gore makina atar
+      UserData: "String"
+
+Transform: # Serverless applicationlarda veya serverless resourcelerin kullaniminda macrolar icin kullaniliyor
+  
+Outputs: # EC2 ayaga kaldirdik ve sayfanin calisip calismadigina bakmak icin IP sini alacagiz ve browser yapistiracagiz. Bunun yerine bu bolume bana public IP yi getir
+# ve bu bolume yapistir diyoruz. Bu sayede direk buradan link tiklanarak da kolaylikla acilabilir.
