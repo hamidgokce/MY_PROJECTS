@@ -132,3 +132,4 @@ Outputs:
       - ''
       - - 'http://'
         - !GetAtt myApplicationLoadBalancer.DNSName
+

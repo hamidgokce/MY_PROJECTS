@@ -5,7 +5,7 @@ Description: | # Ne yaptigimizi aciklayacagimiz bolumdur. Ayrintili olmasi daha 
   ASG, target tracking policy ile siteyi izlemekte ve ortalama CPU degerini takip etmektedir.
 Parameters: # User in belirlemesini istediginiz parametrelerdir. Mesela key.name veya Vpc dir. User a ait bilgilerdir.
   VpcIP: #  ParameterName olarak yazdik
-    Description:  VpcId of your existing Virtual Private Cloud (VPC) # Kullaniciya insruction veririz
+    Description:  VpcId of your existing Virtual Private Cloud (VPC) # Kullaniciya instruction veririz
     Type: AWS::EC2::VPC::Id # kullanicimiza vpc leri liste olarak doker
   Subnets: # Bu isimler onemlidir. ilerde referans tuttugumuzda gerekecektir.
     Description : The list of SubnetIds in your Virtual Private Cloud (VPC) 
@@ -20,7 +20,7 @@ Parameters: # User in belirlemesini istediginiz parametrelerdir. Mesela key.name
       - m1.small
       - m1.medium
       - m1.large
-  ConstraintDescription: must be a valid EC2 instance type that we gave. # user parametre girerken yukaridaki 5 degere izin vermis. Eger farkli
+    ConstraintDescription: must be a valid EC2 instance type that we gave. # user parametre girerken yukaridaki 5 degere izin vermis. Eger farkli
   # deger yazarsa yukaridaki yazi karsisina cikacaktir. 
   KeyName: # cloudformation calistiracagimizda SSH i acalim ki sonra kontrol edebilme imkanimiz olsun
     Description: The EC2 Key Pair to allow SSH access to the instances
@@ -30,14 +30,14 @@ Parameters: # User in belirlemesini istediginiz parametrelerdir. Mesela key.name
     Default : '60'
     Type : String 
 
-Metadata: # AWS resourcenin bir metadatasi vardir. Ek metadata tanimlamak istiyorsak tanimlanacak yerdir. Mesela EC2 nun public ip si gibi...
+# Metadata: # AWS resourcenin bir metadatasi vardir. Ek metadata tanimlamak istiyorsak tanimlanacak yerdir. Mesela EC2 nun public ip si gibi...
 
-Mappings: # User goremez. Kendi planladigimiz yapiya gore arka planda adreslenebilir. Mesela; eger user north-virginia bolgesinde ise ve Ami numarasinin alinmasini istiyorsak 
+# Mappings: # User goremez. Kendi planladigimiz yapiya gore arka planda adreslenebilir. Mesela; eger user north-virginia bolgesinde ise ve Ami numarasinin alinmasini istiyorsak 
 # kullanicinin regionuna gore sahsin AMi sini ceker. Parametreler user a sorulur ve adreslenir, Mapping user a sorulmaz arka planda adreslenir. User dan kasit cloudformation
 # u ayaga kaldirmak isteyen kisidir.
 
   
-Conditions: # iceride conditionlar verebiliriz.
+# Conditions: # iceride conditionlar verebiliriz.
   
 Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmektedir. Ilk olusturacagimiz kisim security group olmasi gerekmektedir. 
   mySecurityGroup : # LogicalID: # security-group ec2 yazilinca cikmaktadir. Her resourcenin kendine ait bir ID si olur. Burada o ismi belirleyecegiz.
@@ -45,8 +45,8 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
     Properties:
       GroupDescription: Enable SSH and HTTP for EC2s and ALB # Required ==> 
       # GroupName: "String" yukarida isim verdigimiz icin bu kisma gerek yoktur 
-      SecurityGroupEgress: # outbound stateless oldugu icin inbound kismi gecerlidir
-        SecurityGroupEgress
+      # SecurityGroupEgress: # outbound stateless oldugu icin inbound kismi gecerlidir
+        # - SecurityGroupEgress
       SecurityGroupIngress: # inbound
         - IpProtocol: tcp 
           FromPort: 22 # belirli bir port araligi acabiliriz
@@ -70,7 +70,7 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
      # Name: "String" yukarida verdigimiz icin kullanmiyoruz
      # Scheme: "String" default deger yani internet-facing gecerlidir 
       SecurityGroups: # atayacagimiz grup listener ve target in portlarini icermelidir. liste halinde yazilir mySecurityGroup un grup id sini alacagiz
-        - !GetAtt mySecurityGroup # SecurityGroups
+        - !GetAtt mySecurityGroup.GroupId # SecurityGroups
       # SubnetMappings: # 2 availibility zones olmali
         # SubnetMappings
       Subnets: !Ref Subnets # yukarida sectigimiz subnetleri buraya yapistirmis olduk. Bunu yapmazsak teker teker subnet id lerini yapistirmak gerekir
@@ -81,7 +81,7 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
 
   # Target gruplari yazacagiz. 
   
-  myALBTargetGrup:  #LogicalID: # elasticloadbalancertarget yazdigimizda cikar. Healthcheck kisminda bir sey belirtmezsek konsoldaki defaul degerlerini alir. 
+  myALBTargetGroup:  #LogicalID: # elasticloadbalancertarget yazdigimizda cikar. Healthcheck kisminda bir sey belirtmezsek konsoldaki defaul degerlerini alir. 
   # alt pathleride takip edecek dizin olusturulabilir ' / '
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -99,13 +99,13 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
       Port: 80 # Number ==> HTTP
       Protocol: "String"
       ProtocolVersion: "String" # default HTTP1
-      Tags:
-        Tags
-      TargetGroupAttributes: 
-        TargetGroupAttributes
+      #Tags:
+        #Tags
+      #TargetGroupAttributes: 
+        #TargetGroupAttributes
       TargetType: instance # "String" # 3 farkli targettype dinliyebilir instance / ip / lambda function
-      Targets: # calisan instanceleri target gruplara eklemek istiyorsak onlarin ID lerini yazacagiz buraya
-        Targets
+      #Targets: # calisan instanceleri target gruplara eklemek istiyorsak onlarin ID lerini yazacagiz buraya
+        #Targets
       UnhealthyThresholdCount:  2 # Number
       VpcId: !Ref VpcIP #"String" # en basta vpcid belirlemistik
   
@@ -119,10 +119,10 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
       DefaultActions: # Required bu listener ile trafigi asagidaki gruba forward edecegiz diyebiliriz
         - Type : forward # DefaultActions
           TargetGroupArn : !Ref myALBTargetGroup 
-        LoadBalancerArn: !Ref myApplicationLoadBalancer # "String" # Required ==> listener hangi loadbalancer a bagli
-        Port: 80 # Number listener in nereyi dinleyecegi
-        Protocol: "String"
-        SslPolicy: "String" # yine sertifika ile ilgili
+          LoadBalancerArn: !Ref myApplicationLoadBalancer # "String" # Required ==> listener hangi loadbalancer a bagli
+          Port: 80 # Number listener in nereyi dinleyecegiz
+          Protocol: HTTP # "String"
+          SslPolicy: "String" # yine sertifika ile ilgili
 
   #  Target trafic policy tanimlayacagiz.
 
@@ -141,8 +141,8 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
       StepAdjustments:
         StepAdjustments
       TargetTrackingConfiguration: # ortalama CPU ya gore scale et 
-        PredefinedMetricSpecification: ASGAverageCPUUtilization
-          PredefinedMetricType: 
+        PredefinedMetricSpecification: 
+          - PredefinedMetricType: ASGAverageCPUUtilization 
         #DisableScaleIn: false
         TargetValue: !Ref PolicyTargetValue # Number # User in belirlemesini istiyoruz. Ve yukariya yazacagiz parametreleri (satir 28) 
  
@@ -153,7 +153,7 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       AutoScalingGroupName: "String"
-      AvailabilityZones: !!GetAZs "" # ==> seklinde yazilirsa uzerinde calismasini istedigimiz availibility zonelari gosterir. bos string tanimlarsak tum zone lar oldugunu soylemekteyiz
+      AvailabilityZones: !GetAZs "" # ==> seklinde yazilirsa uzerinde calismasini istedigimiz availibility zonelari gosterir. bos string tanimlarsak tum zone lar oldugunu soylemekteyiz
        # AvailabilityZones
       CapacityRebalance: false
       Context: "String"
@@ -163,10 +163,10 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
       HealthCheckType: ELB # "String" ==> ec2 lari da elb leri de takip ettirebiliriz. ELB ile ayni healthcheck i kullanmamiza yariyor
       InstanceId: "String"
       LaunchConfigurationName: !Ref myLaunchConfig # "String"
-      LaunchTemplate:
-        LaunchTemplateId: "String"
-        LaunchTemplateName: "String"
-        Version: "String"
+      #LaunchTemplate:
+        #LaunchTemplateId: "String"
+        #LaunchTemplateName: "String"
+        #Version: "String"
       LifecycleHookSpecificationList:
         LifecycleHookSpecificationList
       LoadBalancerNames:
@@ -176,14 +176,14 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
       MetricsCollection:
         MetricsCollection
       MinSize: 1 # "String" # Required
-      MixedInstancesPolicy:
+      # MixedInstancesPolicy:
       NewInstancesProtectedFromScaleIn: false
       NotificationConfigurations:
         NotificationConfigurations
       PlacementGroup: "String"
       ServiceLinkedRoleARN: "String"
-      Tags:
-        Tags
+      #Tags:
+        #Tags
       TargetGroupARNs: # Hangi target grubu takip et anlamindadir 
         - !Ref myALBTargetGroup # TargetGroupARNs
       TerminationPolicies:
@@ -192,7 +192,7 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
         VPCZoneIdentifier
 
  # autoscaling tanimladigimiz ozellikleri olusturabilmesi icin template ye ihtiyac duyuyor ki instance ornegi vermemiz gerekir(Launch Configuration / Launch Template )
-  mylaunchConfig:  # LogicalID:
+  myLaunchConfig:  # LogicalID:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       AssociatePublicIpAddress: false
@@ -206,22 +206,50 @@ Resources: # Cloudformationun olmazsa olmazidir. Kesinlikle yazilmasi gerekmekte
       ImageId: ami-0dc2d3e4c0f9ebd18 # "String" # Required
       InstanceId: "String"
       InstanceMonitoring: false # true dakikada bir false 5 dakika da bir
-      InstanceType: "String" # Required
+      InstanceType:  !Ref InstanceType # "String" # Required
       KernelId: "String"
-      KeyName: "String"
+      KeyName: !Ref KeyName # "String"
       LaunchConfigurationName: "String"
-      MetadataOptions:
-        HttpEndpoint: "String"
-        HttpPutResponseHopLimit: Number
-        HttpTokens: "String"
+      # MetadataOptions:
+      #  HttpEndpoint: "String"
+      #  HttpPutResponseHopLimit: Number
+      #  HttpTokens: "String"
       PlacementTenancy: "Number" # firmalar host kiralar ve dedicate host denir. guvenlik icin
       RamDiskId: "String" # t2 micro dan gelecek ram
       SecurityGroups:
-        SecurityGroups
+        - !Ref mySecurityGroup # SecurityGroups
       SpotPrice: "String" # limit belirleriz ve limite gore makina atar
-      UserData: "String"
+      UserData: !Base64 | 
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd # apache
+          TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
+          && PRIVATE_IP=`curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/local-ipv4`
+          TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
+          && PUBLIC_IP=`curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4` 
+          DATE_TIME=`date`
+          chmod -R 777 /var/www/html
+          echo "<html>
+          <head>
+              <title> Congratulations! You have created an instance from Launch Configuration</title>
+          </head>
+          <body>
+              <h1>This web server is launched from launch configuration by YOUR_NAME</h1>
+              <p>This instance is created at <b>$DATE_TIME</b></p>
+              <p>Private IP address of this instance is <b>$PRIVATE_IP</b></p>
+              <p>Public IP address of this instance is <b>$PUBLIC_IP</b></p>
+          </body>
+          </html>" > /var/www/html/index.html
+          systemctl start httpd
+          systemctl enable httpd
 
-Transform: # Serverless applicationlarda veya serverless resourcelerin kullaniminda macrolar icin kullaniliyor
+# Transform: # Serverless applicationlarda veya serverless resourcelerin kullaniminda macrolar icin kullaniliyor
   
-Outputs: # EC2 ayaga kaldirdik ve sayfanin calisip calismadigina bakmak icin IP sini alacagiz ve browser yapistiracagiz. Bunun yerine bu bolume bana public IP yi getir
+Outputs:
+  URL:
+    Description: The URL of the website
+    Value: !Join # verdigimiz degerleri birbirine yapistirir. HTTP nin arkasina yapistirir
+      - ''
+      - - 'http://'
+        - !GetAtt myApplicationLoadBalancer.DNSName # EC2 ayaga kaldirdik ve sayfanin calisip calismadigina bakmak icin IP sini alacagiz ve browser yapistiracagiz. Bunun yerine bu bolume bana public IP yi getir
 # ve bu bolume yapistir diyoruz. Bu sayede direk buradan link tiklanarak da kolaylikla acilabilir.
