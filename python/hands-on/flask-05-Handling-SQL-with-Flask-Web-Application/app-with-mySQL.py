@@ -4,8 +4,8 @@ from flaskext.mysql import MySQL
 # Create an object named app
 app = Flask(__name__)
 # Configure mysql database
-app.config['MYSQL_DATABASE_HOST'] = 'PLEASE WRITE HERE YOUR RDS ENDPOINT'
-app.config['MYSQL_DATABASE_USER'] = 'admin'
+app.config['MYSQL_DATABASE_HOST'] = 'PLEASE WRITE HERE YOUR RDS ENDPOINT' # py dosyasinin icerisinde variable tanimla yontemi. endpoint== ID. cokme durumunda garanti. end point vermesi 
+app.config['MYSQL_DATABASE_USER'] = 'admin' # my sql atama yapiyor buradaki degerleri
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Clarusway_1'
 app.config['MYSQL_DATABASE_DB'] = 'clarusway'
 app.config['MYSQL_DATABASE_PORT'] = 3306
@@ -13,11 +13,11 @@ mysql = MySQL()
 mysql.init_app(app)
 connection = mysql.connect()
 connection.autocommit(True)
-cursor = connection.cursor()
+cursor = connection.cursor() # uygulayaci / app in icerisinde flaskin tanmimadigi yardimci
 # Create users table within MySQL db and populate with sample data
 # Execute the code below only once.
 # Write sql code for initializing users table..
-drop_table = 'DROP TABLE IF EXISTS users;'
+drop_table = 'DROP TABLE IF EXISTS users;' # sql komutunu deger atma
 users_table = """
 CREATE TABLE users (
   username varchar(50) NOT NULL,
@@ -32,7 +32,7 @@ VALUES
     ("Tugce", "tugce@mercedes.com"),
 	("Anil", "anil@porche.com");
 """
-cursor.execute(drop_table)
+cursor.execute(drop_table) # exucute et uygula calistir harekete gecir
 cursor.execute(users_table)
 cursor.execute(data)
 # Write a function named `find_emails` which find emails using keyword from the user table in the db,
@@ -42,7 +42,7 @@ def find_emails(keyword):
     SELECT * FROM users WHERE username like '%{keyword}%';
     """
     cursor.execute(query)
-    result = cursor.fetchall()
+    result = cursor.fetchall() # karsilama gibi ??
     user_emails = [(row[0], row[1]) for row in result]
     # if there is no user with given name in the db, then give warning
     if not any(user_emails):
@@ -75,7 +75,7 @@ def insert_email(name, email):
 # Write a function named `emails` which finds email addresses by keyword using `GET` and `POST` methods,
 # using template files named `emails.html` given under `templates` folder
 # and assign to the static route of ('/')
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST']) # veri isleme post cagirma ise get
 def emails():
     if request.method == 'POST':
         user_name = request.form['user_keyword']
