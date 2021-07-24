@@ -1,7 +1,7 @@
 from flask import Flask # flask framework icerisindeki flask sinifini dahil etme
 
 app = Flask (__name__) # flask sinifindan bir tane nesne olusturuyoruz / name ile pythondaki ozel bir degiskeni gonderiyoruz
-# bir tane uygulama olusturduk ve asagidaki satirda da onu calistiracagiz
+# Bir tane uygulama olusturduk ve asagidaki satirda da onu calistiracagiz
 
 # url yi belirtmemiz gerekmektedir. Yani x url dondugunde y response donmesi gerekmektediri belirtecegiz.
 @app.route('/') # pythonda decorator yapilari mevcut fonksiyondan once gelmektedir. app.route seklinde bir decorator
