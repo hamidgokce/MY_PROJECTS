@@ -13,7 +13,7 @@ Parameters:
       ConstraintDescription: Must be the name of an existing EC2 Keypair. 
 
 Resources:
-  WebServerSevurityGroup:
+  WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable HTTP for Flask Web Server and SSH port to secure reach to my EC2 # Required
@@ -29,11 +29,11 @@ Resources:
   WebServerHost:
     Type: AWS::EC2::Instance
     Properties:
-      KeyName: !Ref Keyname
+      KeyName: !Ref KeyName
       ImageId: ami-0dc2d3e4c0f9ebd18
       InstanceType: t2.micro
       SecurityGroupIds:
-        - !Ref WebServerSevurityGroup
+        - !Ref WebServerSecurityGroup
       UserData: !Base64 | 
         #!/bin/bash
         yum update -y
@@ -47,10 +47,13 @@ Resources:
         wget https://raw.githubusercontent.com/hamidgokce/MY_PROJECTS/main/aws/projects/Project-001-Roman-Numerals-Converter/templates/result.html
         cd ..
         python3 app.py
-
-        
       Tags:
-        - Key: key
-          Value: Web Server of ${AWS::StackName} stack
+        - Key: Name
+          Value: !Sub Web Server of ${AWS::StackName} stack
     
-Outputs:
+Outputs: 
+  WebsiteURL:
+    Value: !Sub 
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt WebServerHost.PublicDnsName
+    Description: Roman Numerals Converter Application URL 
