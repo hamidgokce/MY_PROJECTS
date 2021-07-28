@@ -1,4 +1,3 @@
-from os import device_encoding
 from flask import Flask, render_template, request # template kiralayacigimiz icin render_template ve
 # kutucuga girilen sayilari cagiracagimiz icin de request
 
@@ -32,10 +31,10 @@ def main_post ():
         if not 0 < number < 4000: 
             return render_template('index.html', developer_name = 'HAMID GOKCE', not_valid= True)
         return render_template('result.html', number_decimal = number, number_roman = convert(number), developer_name = 'Hamid GOKCE')
-    else : # girilen metod post degilse
-        return render_template('index.html', developer_name = 'Hamid GOKCE', not_valid =False )
+    else : # girilen metod post degilse / number_decimal = kullanicinin kutucuga girdigi sayi / number_roman = python kodundan cikan degere esit
+        return render_template('index.html', developer_name = 'HAMID GOKCE', not_valid =False )
 
 if __name__=="__main__": # kontrol cumlemiz
-    app.run(debug=True) 
-    # app.run(host= '0.0.0.0', port=80)
+    # app.run(debug=True) 
+    app.run(host= '0.0.0.0', port=80)
     
