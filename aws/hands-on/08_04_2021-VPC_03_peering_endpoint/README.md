@@ -271,7 +271,7 @@ Route Table      : choose private one or both
 aws s3 ls
 aws s3 ls clarusway-vpc-endpoint
 # aws s3 ls clarusway-vpc-endpoint.hamid
-
+clarusway-vpc-endpoint-hamid
 ```
 
 - copy the 'Guile.png' and 'Honda.png' files from S3 bucket into the private EC2
@@ -279,8 +279,8 @@ aws s3 ls clarusway-vpc-endpoint
 aws s3 cp s3://clarusway-vpc-endpoint/Guile.png .
 aws s3 cp s3://clarusway-vpc-endpoint/Honda.png .
 
-aws s3 cp s3://clarusway-vpc-endpoint.hamid/Honda.png .
-aws s3 cp s3://clarusway-vpc-endpoint.hamid/Guile.png .
+aws s3 cp s3://clarusway-vpc-endpoint-hamid/Honda.png .
+aws s3 cp s3://clarusway-vpc-endpoint-hamid/Guile.png .
 
 
 ```
