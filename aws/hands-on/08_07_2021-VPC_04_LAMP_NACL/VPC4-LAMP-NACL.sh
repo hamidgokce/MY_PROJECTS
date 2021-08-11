@@ -24,11 +24,11 @@ wget https://wordpress.org/latest.tar.gz
 tar -xzf latest.tar.gz
 sudo cp -r wordpress/* /var/www/html/
 cd /var/www/html/
-cp wp-config-sample.php wp-config.php
-chown -R apache /var/www
+cp wp-config-sample.php wp-config.php # yedek dosyada calismak icin
+chown -R apache /var/www # apache kullanicisina yetki veriyoruz
 chgrp -R apache /var/www
 chmod 775 /var/www
-find /var/www -type d -exec sudo chmod 2775 {} \;
+find /var/www -type d -exec sudo chmod 2775 {} \; # yetki degisikligi
 find /var/www -type f -exec sudo chmod 0664 {} \;
 systemctl restart httpd
 
@@ -50,7 +50,8 @@ systemctl enable mariadb
 # 4. Control the instance status.
 
 # 5. We need to establish Database Configuration in DB instance which is in Private-B Subnet 
-So we need to use Wordpress instance as a Bastionhost to access DB instance. Bastion host is in Public-B. So first we need to ensure DB instance Sec Group inbound rule that it only permit BastionHost Secgroup to access
+So we need to use Wordpress instance as a Bastionhost to access DB instance. Bastion host is in Public-B. 
+So first we need to ensure DB instance Sec Group inbound rule that it only permit BastionHost Secgroup to access
 
 Rule: Mysql 3306, SSH 22  > "anywhere (0:/00000)"
 							 V
@@ -85,7 +86,7 @@ eval "$(ssh-agent)"
 ssh-add p.pem
 
 # 9 Connect to the "Wordpress instance -Bastion Host "instance in "publicB" subnet
-ssh -A ec2-user@ec2-3-88-199-43.compute-1.amazonaws.com  ==> public wordpress olacak
+ssh -A ec2-user@ec2-3-88-199-43.compute-1.amazonaws.com
 
 # 10 connect to the Database instance in the privateA subnet 
 ssh ec2-user@10.7.2.20 (Private IP of Database Instance)
@@ -151,8 +152,8 @@ CREATE DATABASE clarusway;
 CREATE USER admin IDENTIFIED BY '123456789';
 
 # 23. Grant permissions to the user "admin" for database "clarusway"
-GRANT ALL ON clarusway.* TO admin IDENTIFIED BY '123456789' WITH GRANT OPTION;  # databasenin tum yetkilerini usera veriyorum
-
+GRANT ALL ON clarusway.* TO admin IDENTIFIED BY '123456789' WITH GRANT OPTION;  
+# data basenin tum yetkilerini user a ver 
 # 24. Update privileges
 FLUSH PRIVILEGES;
 
@@ -162,7 +163,8 @@ SELECT Host, User, Password FROM user;
 # 26. Close the mysql terminal
 EXIT;
 
-# 28. Return to the Connect "Wordpres Instance" to confgire Word press database settings  "cd /var/www/html/" to secure config file before change
+# 28. Return to the Connect "Wordpres Instance" to confgire Word press database settings  
+#"cd /var/www/html/" to secure config file before change
 cd /var/www/html/
 
 # 29. Change the config file for database assosiation
