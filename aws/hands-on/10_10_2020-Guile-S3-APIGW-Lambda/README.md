@@ -206,6 +206,22 @@ NOTE: Replace url in <AllowedOrigin> tag with your static website link from Part
     <AllowedHeader>Authorization</AllowedHeader>
 </CORSRule>
 </CORSConfiguration>
+
+json formatinda
+[
+    {
+        "AllowedHeaders": [
+            "Authorization"
+        ],
+        "AllowedMethods": [
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "http://serdar.clarusway.broadcast.s3-website-us-east-1.amazonaws.com"
+        ],
+        "MaxAgeSeconds": 3000
+    }
+]
 ```
 - Click "Save"
 
