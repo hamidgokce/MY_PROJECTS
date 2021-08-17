@@ -1,8 +1,24 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  
+  Cloudformation Template for kittens carousel static website deploy on s3 through cloudfront and route 53
+
 Parameters:
-  
+  DomainName: # We'll take domain name and subdomain name from the user at the beginning of cloudformation.
+ # To do this we'll define them into the parameters part.
+    Description: DNS Name of existing Amazon Route 53 hosted zone ex. clarusway.us
+    Type: AWS::Route53::HostedZone::Id
+  KittensDomainName:
+    Description: Full domain name for the App. ex. cutekittens.clarusway.us
+    AllowedPattern: (?!-)[a-zA-Z0-9-.]{1,63}(?<!-)
+
 Resources:
+  KittensBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      BucketName: !Ref KittensDomainName
+      WebsiteConfiguration: 
+        
+
   
 Outputs:
