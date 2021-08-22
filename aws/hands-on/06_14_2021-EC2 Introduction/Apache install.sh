@@ -70,16 +70,17 @@ Securtiy Group: "0.0.0.0/0-----> Port 80"
 8. Set permission of the files and folders under `/var/www/html/` folder to everyone.
 
 
-sudo chmod -R 777 /var/www/html
+sudo chmod -R 777 /var/www/html # uzerinde degisiklik icin full yetki
 
 
 9. Go to the /var/www/html
 
-cd /var/www/html
+cd /var/www/html # Apache klasorunun merkezi
 
 10. Create a custom `index.html` file under `/var/www/html/` folder to be served on the Server.
 
-echo "HELLO CLARUSWAY" > /var/www/html/index.html
+echo "HELLO CLARUSWAY" > /var/www/html/index.html # index.html dosyasi olmamasina ragmen > ile 
+# dosyayi olusturup icerisine yazdik
 
 11. check the index.html
 ls 
@@ -146,7 +147,8 @@ echo "<html>
 </html>" > /var/www/html/index.html
 # start apache server
 systemctl start httpd
-systemctl enable httpd
+systemctl enable httpd # makinayi acip kapattigimizda Apachi calismayacak. 
+# Tekrar otomatik calismasi icin bu komutu yaziyoruz. Ec2 yu stop etsek de silinmeyecek
 
 
 20. Review and launch the EC2 Instance
