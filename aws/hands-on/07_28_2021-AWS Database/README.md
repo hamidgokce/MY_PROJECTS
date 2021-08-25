@@ -237,4 +237,4 @@ SELECT * FROM clarusway.Personal_Info;
 
  - Type "delete me" nad Click "Delete".
 
- - Show that Automated Backups are deleted also.
+ - Show that Automated Backups are deleted also...
