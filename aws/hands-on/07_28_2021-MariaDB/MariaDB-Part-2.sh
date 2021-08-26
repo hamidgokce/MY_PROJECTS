@@ -60,11 +60,11 @@ SHOW DATABASES;
 
 CREATE USER clarususer IDENTIFIED BY 'clarus1234';
 
-# Grant permissions to the user clarususer for database clarusdb.
+# Grant permissions to the user clarususer for database clarusdb. (kullanici sifre ile butun yetkilere sahip olsun anlamindadir)
 
 GRANT ALL ON clarusdb.* TO clarususer IDENTIFIED BY 'clarus1234' WITH GRANT OPTION;
 
-# Update privileges.
+# Update privileges. (yukarida yapilan islemleri hemen uygula anlamindadir)
 
 FLUSH PRIVILEGES;
 
