@@ -1,15 +1,19 @@
 # Part 3 - Manipulating MariaDB Database
 
 # Login back as clarususer using the password defined.
+
 mysql -u clarususer -p
 
 # Show databases for clarususer.
+
 SHOW DATABASES;
 
 # Select the database clarusdb.
+
 USE clarusdb;
 
 # Create a table named offices.
+
 CREATE TABLE `offices` (
   `office_id` int(11) NOT NULL,
   `address` varchar(50) NOT NULL,
@@ -19,6 +23,7 @@ CREATE TABLE `offices` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 # Insert some data into the table named offices.
+
 INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH');
 INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY');
 INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA');
@@ -31,6 +36,7 @@ INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN');
 INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA');
 
 # Create a table named employees.
+
 CREATE TABLE `employees` (
   `employee_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
@@ -44,6 +50,7 @@ CREATE TABLE `employees` (
   CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 # Insert some data into the table named employees.
+
 INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10);
 INSERT INTO `employees` VALUES (33391,'Darcy','Nortunen','Account Executive',62871,37270,1);
 INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1);
@@ -66,16 +73,21 @@ INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant I
 INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5);
 
 # Show newly created tables.
+
 SHOW TABLES;
 
 # List all records within employees table.
+
 SELECT * FROM employees;
 
 # List all records within offices table.
+
 SELECT * FROM offices;
 
 # Filter the first_name, last_name, salary, city, state information of employees having salary more than $100000.
+
 SELECT first_name, last_name, salary, city, state FROM employees INNER JOIN offices ON employees.office_id=offices.office_id WHERE employees.salary > 100000;
 
 # Close the mysql terminal.
+
 EXIT;
