@@ -290,12 +290,12 @@ EXIT;
 
 - For `point in time recovery` PART (PART-4), please note down the current time. (Exp: August 12, 2020, 22:45:34, UTC +3) and let the students know:
 
-     -enter the time:
+     -enter the time: # internetten utc time yazilarak bakilabilir 
 
 ## Part 2 - Taking a Snapshot from RDS DB Instance
 
 - Take a manual snapshot of RDS instance and name it as `manual-snapshot-RDS-mysql`.
-
+==> aws s3 e aldigimiz snapshot i koymaktadir fakat biz goremiyoruz. 
   - Go to Amazon RDS from AWS Console.
 
   - Select `RDS-mysql` database ---> Action -----> Take Snapshot
