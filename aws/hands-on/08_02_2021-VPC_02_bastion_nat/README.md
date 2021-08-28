@@ -64,7 +64,7 @@ eval "$(ssh-agent)"
 -  Add the your private ssh key to the ssh-agent.
 
 ```bash
-ssh-add ./[your pem file name]
+ssh-add ./[your pem file name] (ssh-add -l ile ekledigimizi gorebiliriz)
 ```
 - connect to the ec2-in-az1b-public-sn instance in public subnet. 
 
