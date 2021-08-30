@@ -70,6 +70,7 @@ Subnet          : clarus-az1a-private-subnet
 user data       : 
 
 #!/bin/bash
+
 yum update -y
 amazon-linux-extras install nginx1.12
 yum install -y wget
