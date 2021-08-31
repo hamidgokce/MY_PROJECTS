@@ -428,4 +428,4 @@ tab seen bottom
 - Delete Instances.
 - Delete bucket 
 - Delete A,CNAME and Alias record If they exist. 
-- Check the load balancer again
+- Check the load balancer again...
