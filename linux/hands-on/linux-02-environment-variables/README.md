@@ -55,7 +55,7 @@ env
 ​
 ```bash
 export WAY=clarus ==> # env | grep WAY ile olusturulan environment variable yi goruruz
-sudo su ==> # roota gecme komutu / ayrica environment variableler de degisir cunku rooton environment variableleri farklidir. burada env | grep CLARUS komutu gorunmez cunku tanimlanan CLARUS degiskeni sadece ec2 icin gecerliydi. [root@ip-172-32-62-58 ec2_user]# ==> ec2 yazmasinin sebebi home directory rooton degil ec2 nun home directorisi
+sudo su ==> # roota gecme komutu / ayrica environment variableler de degisir cunku rooton environment variableleri farklidir. burada env | grep CLARUS komutu gorunmez cunku tanimlanan CLARUS degiskeni sadece ec2 icin gecerliydi. [root@ip-172-32-62-58 ec2_user]# ==> ec2 yazmasinin sebebi home directory rootun degil ec2 nun home directorysi
 useradd user1 ==> # yeni bir kullanici olusturuldu 
 passwd user1 # give user1 any password.
 exit ==> # tekrar roota gecildi.
@@ -90,7 +90,7 @@ env | grep WAY ==> # silinen WAY degerini artik goremeyiz
 ## Part 2 - Path Variable
 ​
 - PATH variable.
-​ ==> Linux de komutlarin calismasi icin gerekli olan dosyalarin bulundugu yerdir. Herhangi bir komut girildiginde executable file larini bulup calistirmaktadir. linux un
+​ ==> Linux de komutlarin calismasi icin gerekli olan dosyalarin bulundugu yerdir. Herhangi bir komut girildiginde executable file larini bulup calistirmaktadir linux un
 
 ```bash
 printenv PATH 

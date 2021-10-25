@@ -5,12 +5,6 @@ Hands-on Linux-01 : Managing Files in Linux
 # whatis    ==> whatis pwd
 # apropos   ==> apropos pwd
 
-
-
-
-
-
-
 # first 10 lines    ==> head file.txt
 # first 5 lines     ==> head -5 file.txt
 # last 10 lines     ==> tail file.txt
@@ -76,8 +70,55 @@ Single - Double Quotes
 ==> It returns the string value with single quotes, but returns variable with double quotes.
 
 sudo su             Switch to the superuser account.
-sudo su -           Switch to the superuser account with root's environment.
-sudo su - username  Switch to the username's account with the username's environment.
+sudo su -           Switch to the superuser account with roots environment.
+sudo su - username  Switch to the usernames account with the usernames environment.
 sudo -s             Start a shell as root
 sudo -u root -s     Same as above.
 sudo -u user -s     Start a shell as user
+
+Hands-on Linux-03 : Managing Users and Groups
+
+# whoami        display one-line manual page descriptions.
+# who           provide with details about who is logged on the system.
+# w             inform who is logged on and what they are doing.
+# id            Display user id, your primary group id, and a list of the groups you belong to.
+# su            enables a shell to be run as another user.
+# su -          To become another user and also get the environment of the target user.
+
+# cat /etc/passwd On Linux, the local user database is /etc/passwd.
+# sudo useradd userx    ==> 
+# sudo adduser userx    ==> more details
+
+# useradd command is used for creating a new user. 
+    -m is used for forcing the creation of the home directory
+    -d is used for setting the name of the home directory
+    -c is used for setting a description
+
+# userdel   
+Delete a user. userdel command will not remove the users home directory 
+from the file system. If you want to remove the home directory, you need to 
+use the -r in the command line.  (userdel -r user1)
+
+# etc/group
+Users can belong to several groups. Group membership is specified via the /etc/group file.
+
+# groups
+groups command is used to display a list of groups to which the user belongs.
+
+# groupadd
+groupadd command is used to create a new group. 
+
+# usermod 
+You can change group membership with the usermod command.
+
+# groupmod 
+groupmod command can be used to change the group name. (sudo groupmod -n my-linux linux )
+
+# groupdel 
+groupdel command is used to delete a group.
+
+# gpasswd
+With the gpasswd command, we can add a user to a group and to 
+remove a user from a group. In the example below:
+• We add john to aws group with gpasswd -a command. (sudo gpasswd -a user7 aws)
+• We remove walter from aws group with gpasswd -d command. (sudo gpasswd -d user7 aws)
