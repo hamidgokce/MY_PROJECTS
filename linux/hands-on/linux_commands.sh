@@ -122,3 +122,118 @@ With the gpasswd command, we can add a user to a group and to
 remove a user from a group. In the example below:
 • We add john to aws group with gpasswd -a command. (sudo gpasswd -a user7 aws)
 • We remove walter from aws group with gpasswd -d command. (sudo gpasswd -d user7 aws)
+
+
+Hands-on Linux-04 : Using Package Managers in Linux
+
+https://stackoverflow.com/questions/10286459/multiple-package-manager
+
+sudo apt update / upgrade   ==> ubuntu
+sudo yum update             ==> centos
+
+sudo yum install git
+sudo yum remove git
+sudo yum autoremove git
+sudo yum info git
+sudo yum list
+sudo yum list git
+sudo yum list installed ==> List of packages installed in local
+sudo yum --showduplicatess list git ==> list of packages that can be installed in the repo
+
+sudo apt install git
+sudo apt remove git
+sudo apt autoremove git
+sudo apt info git
+sudo apt list
+sudo apt list git
+sudo apt list --installed
+
+
+cat /etc/os-release # ==>cihazin adi versiyonu ve diger ozellikleri hakkidan ubuntu ve linux bilgi verir
+rpm -ql git ==> git in yuklu oldugu yeri gosterir
+
+
+Hands-on Linux-05 : Filters and Control Operators
+
+cat / tac
+
+tee
+# tee is almost the same as cat, except that it has two identical outputs.
+
+ls -l | tee myfiles.txt | find *.txt 
+# ls -l yi alir myfiles dosyasina yazdirir ve daha sonra txt dosyalarinin hepsini cikartir 
+yani ==> ls -l > myfiles.txt ile ayni
+
+cut
+# The cut filter can select columns from files, depending on a delimiter or a count of bytes
+==> cut -d(delimiter) -f(columnNumber) <fileName> (ls -l | cut -d' ' -f3) d or c
+
+tr
+# The command 'tr' stands for 'translate’. It is used to translate, like from lowercase to uppercase and vice versa or new lines into spaces.
+==> cat clarusway.txt | tr -d aeiou (-d = delete)
+==> cat clarusway.txt | tr [a-z] [A-Z]
+
+wc
+# Counting words, lines(l) and characters(c) is easy with wc(w).
+
+sort 
+# The sort filter will default to an alphabetical sort.
+    sort -r the flag returns the results in reverse order
+
+    sort -f the flag does caseinsensitive sorting
+
+uniq
+# With the help of uniq command you can form a sorted list in which every word will occur only once
+(before using uniq command, the file must be sorted)
+sort trainees.txt | uniq
+
+comm
+# The 'comm' command compares two files or streams. By default, 'comm' will always display three columns. 
+#First column indicates non-matching items of first file, second column indicates non-matching items of second file, and third column indicates matching items of both the files. 
+# Both the files has to be in sorted order for 'comm' command to be executed.
+
+Semicolon (;)
+# You can put two or more commands on the same line separated by a semicolon (;)
+
+Ampersand (&)
+# When a line ends with an ampersand &, the shell will not wait for the command to finish. You 
+# will get your shell prompt back, and the command is executed in background. You will get a 
+# message when this command has finished executing in background. (sleep 10)
+
+Dollar Question Mark ($?) ==> echo $?
+# This control operator is used to check the status of last executed command. If 
+# status shows '0' then command was successfully executed and if shows '1' then command was a failure.
+
+Double Ampersand (&&)
+# The command shell interprets the && as the logical AND. When using this 
+# command, the second command will be executed only when the first one has been successfully executed.
+
+Double Vertical Bar (||)
+# The command shell interprets the (||) as the logical OR. This is opposite of 
+# logical AND. Means second command will execute only when first command will be a failure
+
+Combining && and ||
+# You can use this logical AND and logical OR to write an if-then-else structure 
+# on the command line. This example uses echo to display whether the rm command was successful.
+
+Pound Sign (#)
+# Everything written after a pound sign (#) is ignored by the shell. This is useful 
+# to write a shell comment but has no influence on the command execution or shell expansion
+
+Escaping Special Characters (\)
+# Escaping characters are used to enable the use of control characters in the 
+# shell expansion but without interpreting it by the shell.
+
+# Lines ending in a backslash are continued on the next line. The shell does not 
+# interpret the newline character and will wait on shell expansion and execution of 
+# the command line until a newline without backslash is encountered.
+
+
+echo this command is written \
+not only on a single line \
+but also on multiple lines.
+
+echo The special characters are \*, \\, \", \#, \$, \'
+
+
+

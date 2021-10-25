@@ -21,7 +21,7 @@ At the end of the this hands-on training, students will be able to;
 - Update Amazon Linux Instance.
 ​
 ```bash
-sudo yum update # CentOS makinalarin guncellestirme komutu. repository deki guncellestirmeleri kontrol ediyor ve update ediyor
+sudo yum update # CentOS makinalarin guncellestirme komutu. Repository deki guncellestirmeleri kontrol ediyor ve update ediyor
 ```
 - Update Ubuntu's package list. This command updates the local repo database but do not install any package.
 ​
