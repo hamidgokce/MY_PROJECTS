@@ -1,3 +1,5 @@
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+
 Hands-on Linux-01 : Managing Files in Linux
 
 # man       ==> man ls
@@ -236,4 +238,263 @@ but also on multiple lines.
 echo The special characters are \*, \\, \", \#, \$, \'
 
 
+Hands-on Linux-06 : Shell Scripting Basics
+
+Shell Scripting Basics
+
+# All the scripts would have the .sh extension.
+
+#!/bin/bash
+echo "Hello World"
+
+==>     Before we add anything else to our script, we need to alert the system that a shell script is being started.
+        This is done specifying `#!/bin/bash` on the first line, meaning that the script should always be run with bash, rather than another shell.
+        `#!` is called a `shebang` because the `#` symbol is called a hash, and the `!` symbol is called a bang.
+
+chmod +x script.sh ==> we need to make the script executable.  To execute basic.sh, it is required to add **./** beginning of the `basic.sh`
+
+HEREDOC syntax
+
+#!/bin/bash
+echo "hello"
+# date
+pwd # This is an inline comment
+# ls
+
+cat << EOF
+Welcome to the Linux Lessons.
+This lesson is about the shell scripting
+EOF
+
+<< multiline-comment
+pwd
+ls
+Everything inside the
+HereDoc body is
+a multiline comment
+multiline-comment
+
+Shell Variables
+
+The name of a variable can contain only letters (a to z or A to Z), numbers ( 0 to 9) or
+the underscore character (_) and beginning with a letter or underscore character.
+
+> Note that there is no space on either side of the equals ( = ) sign. 
+
+Command Substitution
+
+content=$(ls)
+echo $content
+
+- lets see that in a script. Create a file and name it `command-substitution.sh`.
+
+#!/bin/bash
+working_directory=$(pwd)
+echo "Welcome, your working directory is $working_directory."
+
+#!/bin/bash
+echo "Welcome, your working directory is $(pwd)."
+echo "Today is `date`"
+echo "You are `whoami`"
+
+
+Console input
+
+- The Bash `read` command is a powerful built-in utility used take user input. 
+
+- Update the `variable.sh` file.
+
+```bash
+#!/bin/bash
+echo "Enter your name: "
+read NAME
+echo "Welcome $NAME"
+```
+
+- When writing interactive bash scripts, we can use the read command to get the user input. 
+To specify a prompt string, use the -p option. The prompt is printed before the read 
+is executed and doesn’t include a newline.
+
+```bash
+read -p "Enter your name: " NAME
+echo "Welcome $NAME"
+```
+
+- When entering sensitive information we do not want to display input coming. 
+For this we can use `read -s`
+
+```bash
+read -p "Enter your name: " NAME
+echo "Welcome $NAME"
+
+read -s -p "Enter your password: " PASSWORD
+echo -e "\nYour password is $PASSWORD"
+
+Command Line Arguments
+
+- Command-line arguments are given after the name of the program in command-line shell of Operating Systems. The command-line arguments $1, $2, $3, ...$9 are positional parameters, with $0 pointing to the actual command, program, shell script, or function and $1, $2, $3, ...$9 as the arguments to the command.
+
+- Create a new file and name it `argument.sh`.
+
+```bash
+#!/bin/bash
+echo "File Name is $0"
+echo "First Parameter is $1"
+echo "Second Parameter is $2"
+echo "Third Parameter is $3"
+echo "All the Parameters are $@"
+echo "Total Number of Parameters : $#"
+echo "$RANDOM is a random number"
+echo "The current line number is $LINENO"
+```
+
+./argument.sh Joe Matt Timothy James Guile
+
+Arrays
+
+- In our programs, we usually need to group several values to render as a single value.
+In shell, arrays can hold multiple values at the same time.
+
+Defining arrays
+
+- Following is the simplest method of creating an array variable. 
+
+```bash
+DISTROS[0]="ubuntu"
+DISTROS[1]="fedora"
+DISTROS[2]="debian"
+DISTROS[3]="centos"
+DISTROS[4]="alpine"
+```
+
+- We can also use following method.
+
+```bash
+devops_tools=("docker" "kubernetes" "ansible" "terraform" "jenkins")
+```
+
+#### Working with arrays
+
+- We can access a value in an array by using the following method.
+
+```bash
+echo ${DISTROS[0]}
+echo ${DISTROS[1]}
+```
+
+- We can access all elements by putting `@` instead of number.
+
+```bash
+echo ${DISTROS[@]}
+```
+
+- With the following method, we can learn number of elements.
+
+```bash
+echo ${#DISTROS[@]}
+
+Simple Arithmetic
+
+- There are many ways to evaluate arithmetic expression in Bash scripting
+
+expr
+
+- `expr` command print  the value of expression to standard output. Let's see this.
+
+```bash
+expr 3 + 5
+expr 6 - 2
+expr 7 \* 3
+expr 9 / 3
+expr 7 % 2
+```
+
+- Using `expr` command, we must have spaces between the items of the expression and must not put quotes around the expression. If we do that, 
+the expression will not be evaluated but printed instead. See the difference.
+
+
+- Let's create a simple calculator. Create a file and name it `calculator.sh`.
+
+- Make the script executable. 
+
+```bash
+chmod +x calculator.sh
+```
+
+```bash
+#!/bin/bash
+read -p "Input first number: " first_number
+read -p "Input second number: " second_number
+
+echo "SUM="`expr $first_number + $second_number`
+echo "SUB="`expr $first_number - $second_number`
+echo "MUL="`expr $first_number \* $second_number`
+echo "DIV="`expr $first_number / $second_number`
+
+let
+
+- `let` is a builtin function of Bash that helps us to do simple arithmetic. It is similar to `expr` except instead of printing the answer it saves the result to a variable. Unlike expr we need to enclose the expression in quotes. 
+let "sum = 3 + 5"
+echo $sum
+
+
+- Note that if we don't put quotes around the expression then it must be written with no spaces.
+
+x=5
+let x++
+echo $x
+
+y=3
+let y--
+echo $y
+
+----------------------
+
+#!/bin/bash
+read -p "Input first number: " first_number
+read -p "Input second number: " second_number
+
+let "sum = $first_number + $second_number"
+let "sub = $first_number - $second_number"
+let "mul = $first_number * $second_number"
+let "div = $first_number / $second_number"
+echo "SUM=$sum"
+echo "SUB=$sub"
+echo "MUL=$mul"
+echo "DIV=$div"
+
+let first_number++
+let second_number--
+echo "The increment of first number is $first_number"
+echo "The decrement of second number is $second_number"
+
+----------------------
+
+Difference between `num++` and `++num`, or `num--` and `--num`
+
+- Create a file and name it number.sh.
+
+number=10
+let new_number=number++   # This firstly assigns the number then increases.
+echo "Number = $number"
+echo "New number = $new_number"
+
+number=10
+let new_number=--number   # This firstly decreases the number then assigns.
+echo "Number = $number"
+echo "New number = $new_number"
+
+Double Parentheses
+
+- We can also evaluate arithmetic expression with double parentheses. We have learned that we could take the output of a command and save it as the value of a variable. We can use this method to do basic arithmetic.
+
+sum=$((3 + 5))
+echo $sum
+
+- As we can see below, it works just the same if we take spacing out.
+
+sum=$((3+5))
+echo $sum
+ 
+bc command is calculator in linux
 

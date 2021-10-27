@@ -178,7 +178,7 @@ cat clarusway.txt | tr -d aeiou # -d delete anlamindadir ==> cat clarusway.txt |
 - Write the whole content of clarusway.txt in capital letters.
 ​
 ```bash
-cat clarusway.txt | tr [a-z] [A-Z] # hepsini byuk harfe donusturur
+cat clarusway.txt | tr [a-z] [A-Z] # hepsini buyuk harfe donusturur
 ```
 **wc**
 ​
