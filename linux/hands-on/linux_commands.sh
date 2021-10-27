@@ -399,7 +399,7 @@ Simple Arithmetic
 
 expr
 
-- `expr` command print  the value of expression to standard output. Let's see this.
+- `expr` command print  the value of expression to standard output. Lets see this.
 
 ```bash
 expr 3 + 5
@@ -413,15 +413,12 @@ expr 7 % 2
 the expression will not be evaluated but printed instead. See the difference.
 
 
-- Let's create a simple calculator. Create a file and name it `calculator.sh`.
+- Lets create a simple calculator. Create a file and name it calculator.sh.
 
 - Make the script executable. 
 
-```bash
 chmod +x calculator.sh
-```
 
-```bash
 #!/bin/bash
 read -p "Input first number: " first_number
 read -p "Input second number: " second_number
@@ -433,12 +430,14 @@ echo "DIV="`expr $first_number / $second_number`
 
 let
 
-- `let` is a builtin function of Bash that helps us to do simple arithmetic. It is similar to `expr` except instead of printing the answer it saves the result to a variable. Unlike expr we need to enclose the expression in quotes. 
+- let is a builtin function of Bash that helps us to do simple arithmetic. 
+It is similar to `expr` except instead of printing the answer it saves the result to
+ a variable. Unlike expr we need to enclose the expression in quotes. 
 let "sum = 3 + 5"
 echo $sum
 
 
-- Note that if we don't put quotes around the expression then it must be written with no spaces.
+- Note that if we dont put quotes around the expression then it must be written with no spaces.
 
 x=5
 let x++
@@ -498,3 +497,336 @@ echo $sum
  
 bc command is calculator in linux
 
+Hands-on Linux-07 : Shell Scripting/Conditional Statements
+
+==> If Statements
+
+#!/bin/bash
+read -p "Input a number: " number
+
+if [[ $number -gt 50 ]] # daima cift kullanacagiz. eger bashshell kullaniliyorsa hata almayiz. gt greater then
+then
+  echo "The number is big." # girinti onemli degil
+fi # sayi eger kucuk olursa cikti vermez programi calistirmaz
+
+- We can use `Relational Operators`, `String Operators` or `File Test Operators` inside
+ the square brackets ( [ ] ) in the if statement above. 
+
+## Relational Operators 
+
+- Bourne Shell supports the relational operators below that are specific to numeric values. These operators do not work for string values.
+
+| Operator | Description |
+| -------- | ----------- |
+| -eq   | equal                  |
+| -ne   | not equal              |
+| -gt   | greater than           |
+| -lt   | less than              |
+| -ge   | greater than or equal  |
+| -le   | less than or equal     |
+
+## String Operators
+
+- The string operators below are supported by Bourne Shell.
+
+| Operator | Description |
+| -------- | ----------- |
+| =    | equal            |
+| !=   | not equal        |
+| -z   | Empty string     |
+| -n   | Not empty string |
+
+## File Test Operators
+
+- There are a few operators that can be used to test various properties associated with a Linux file. # file lerin turlerine bakabiliyoruz
+
+| Operator | Description |
+| -------- | ----------- |
+| -d file   | directory  |
+| -e file   | exists     |
+| -f file   | ordinary file     |
+| -r file   | readable          |
+| -s file   | size is > 0 bytes |
+| -w file   | writable          |
+| -x FILE   | executable        |
+#!/bin/bash
+
+if [[ "a" = "a" ]] # the brackets here act as a command, 
+#and you are separating the command from its parameters.
+then
+  echo "They are same"
+fi
+
+if [[ "a" != "b" ]]
+then
+  echo "They are not same"
+fi
+
+if [[ -z "" ]]
+then
+  echo "It is empty"
+fi
+
+if [[ -n "text" ]]
+then
+  echo "It is not empty"
+fi
+
+==> If Else Statements
+
+#!/bin/bash
+read -p "Input a number: " number
+
+if [[ $number -ge 10 ]]
+then
+  echo "The number is bigger than or equal to 10."
+else 
+  echo "The number is smaller than 10"
+fi
+
+==> If Elif Else Statements
+
+#!/bin/bash
+read -p "Input a number: " number
+
+if [[ $number -eq 10 ]]
+then
+  echo "The number is equal to 10."
+elif [[ $number -gt 10 ]]
+then
+  echo "The number is bigger than 10"
+else 
+  echo "The number is smaller than 10"
+fi
+
+==> Nested If Statements
+
+#!/bin/bash
+
+read -p "Input a number: " number
+
+if [[ $number -gt 10 ]]
+then
+  echo "Number is bigger than 10"
+
+  if (( $number % 2 == 1 ))
+  then
+    echo "And is an odd number."
+  else
+    echo "And is an even number"
+  fi
+else 
+  echo "It is not bigger than 10"
+fi
+
+==> Boolean Operations
+
+- The Boolean operators below are supported by the Bourne Shell.
+
+| Operator | Description |
+| -------- | ----------- |
+| !        | negation    |
+| &&       | and         |
+| ||       | or          |
+
+- `!`  inverts a true condition into false and vice versa.
+
+- `&&` is logical AND. If both the operands are true, then the condition becomes true otherwise false.
+
+- `||`	is logical OR. If one of the operands is true, then the condition becomes true.	
+
+#!/bin/bash
+
+read -p "Input your name: " name
+read -sp "Input your password: " password
+
+if [[ $name = $(whoami) ]] && [[ $password = Aa1234 ]]
+then
+  echo -e "\nWelcome $(whoami)"
+else
+  echo -e "\nIt is wrong account"
+fi
+
+==> Case Statements
+
+- To execute a multiway branch, we can use several if-elif statements 
+but that would soon become complicated. Bash case statements are similar 
+to if-else statements but are easier and simpler. It helps to match one 
+variable against several values.
+
+#!/bin/bash
+
+read -p "Input first number: " first_number
+read -p "Input second number: " second_number
+read -p "Select an math operation
+1 - addition
+2 - subtraction
+3 - multiplication
+4 - division
+" operation
+
+case $operation in
+  "1") 
+     echo "result= $(( $first_number + $second_number))"
+  ;;
+  "2")
+     echo "result= $(( $first_number - $second_number))"
+  ;;
+  "3")
+     echo "result= $(( $first_number * $second_number))" 
+     ;;
+  "4")
+     echo "result= $(( $first_number / $second_number))"
+  ;;
+  *)
+     echo "Wrong choice..." 
+  ;;
+esac
+
+Hands-on Linux-08 : Shell Scripting/Loops
+
+==> While loops
+
+#!/bin/bash
+
+number=1
+
+while [[ $number -le 10  ]]
+do
+  echo $number
+  ((number++))
+done
+echo "Now, number is $number"
+
+==> Until loops
+
+#!/bin/bash
+
+number=1
+
+until [[ $number -ge 10  ]]
+do
+  echo $number
+  ((number++))
+done
+echo "Now, number is $number"
+
+- Note that, this time we write `-ge` instead of `-le`. 
+So In first sitiuation, condition is false. It will execute the code until the condition is true. 
+
+==> For loops
+
+#!/bin/bash
+
+echo "Numbers:"
+
+for number in 0 1 2 3 4 5 6 7 8 9
+do
+   echo $number
+done
+
+echo "Names:"
+
+for name in Joe David Matt John Timothy
+do
+   echo $name
+done
+
+==> Using arrays with the for loop
+
+#!/bin/bash
+
+devops_tools=("docker" "kubernetes" "ansible" "terraform" "jenkins")
+
+for tool in ${devops_tools[@]}
+do
+   echo $tool
+done
+
+==> Continue and Break Statements
+ 
+ #!/bin/bash
+
+number=1
+
+until [[ $number -lt 1  ]]
+do
+  echo $number
+  ((number++))
+done
+echo "Now, number is $number"
+# ctrl + C
+
+==> Break Statement
+
+#!/bin/bash
+
+number=1
+
+until [[ $number -lt 1  ]]
+do
+  echo $number
+  ((number++))
+  if [[ $number -eq 100 ]]
+  then
+    break
+  fi
+done
+
+==> Continue Statement
+
+#!/bin/bash
+
+number=1
+
+until [[ $number -lt 1  ]]
+do
+  ((number++))
+  
+  tens=$(($number % 10))
+  
+  if [[ $tens -eq 0 ]]
+  then
+    continue
+  fi
+
+  echo $number
+    
+  if [[ $number -gt 100 ]]
+  then
+    break
+  fi
+done
+
+==>  Select loops
+
+#!/bin/bash
+
+read -p "Input first number: " first_number
+read -p "Input second number: " second_number
+
+PS3="Select the operation: "
+
+select operation in addition subtraction multiplication division exit
+do
+  case $operation in
+    addition) 
+      echo "result= $(( $first_number + $second_number))"
+    ;;
+    subtraction)
+       echo "result= $(( $first_number - $second_number))"
+    ;;
+    multiplication)
+       echo "result= $(( $first_number * $second_number))" 
+       ;;
+    division)
+       echo "result= $(( $first_number / $second_number))"
+    ;;
+    exit)
+       break
+    ;;   
+    *)
+       echo "Wrong choice..." 
+    ;;
+  esac
+done
