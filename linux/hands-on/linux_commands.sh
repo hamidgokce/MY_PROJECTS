@@ -2,10 +2,10 @@ export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$
 
 Hands-on Linux-01 : Managing Files in Linux
 
-# man      ==> man ls
-# info     ==> info echo
-# whatis   ==> whatis pwd
-# apropos  ==> apropos pwd
+# man       ==> man ls
+# info      ==> info echo
+# whatis    ==> whatis pwd
+# apropos   ==> apropos pwd
 
 # first 10 lines    ==> head file.txt
 # first 5 lines     ==> head -5 file.txt
