@@ -7,10 +7,10 @@ Hands-on Linux-01 : Managing Files in Linux
 # whatis    ==> whatis pwd
 # apropos   ==> apropos pwd
 
-# first 10 lines    ==> head file.txt
-# first 5 lines     ==> head -5 file.txt
-# last 10 lines     ==> tail file.txt
-# last 5 lines      ==> tail -5 file.txt
+# first 10 lines     ==> head file.txt
+# first 5 lines      ==> head -5 file.txt
+# last 10 lines      ==> tail file.txt
+# last 5 lines       ==> tail -5 file.txt
 # ==> cat > file.txt        we can write something then press ctrl + d
 # more clarusway.txt
 # less clarusway.txt        ==> less command is faster than more
